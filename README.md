@@ -18,28 +18,3 @@ index:1 Refused to execute script from 'http://localhost:3030/_next/151771744291
 index:1 Refused to execute script from 'http://localhost:3030/_next/1517717442914/page/index.js' because its MIME type ('text/html') is not executable, and strict MIME type checking is enabled.
 index:1 Refused to execute script from 'http://localhost:3030/_next/1517717442914/page/_error.js' because its MIME type ('text/html') is not executable, and strict MIME type checking is enabled.
 ```
-
-## What did you see?
-
-While debug, an error happens somewhere, this error is not sending to client side. But at the back-end.
-
-```json
-{
-  "errno": -2,
-  "code": "ENOENT",
-  "syscall": "stat",
-  "path": "/Users/albertgao/codes/temp/feanext/public/index",
-  "message": "no such file or directory, stat '/Users/albertgao/codes/temp/feanext/public/index'",
-  "expose": false,
-  "statusCode": 404,
-  "status": 404
-}
-```
-
-I used the `DEBUG=*` to analysis, I think it may occur when the code prints this out:
-
-`send stat "/Users/albertgao/codes/temp/feanext/public/index" +1ms`
-
-I don't know whether it related to this problem or not. But just put it here just in case.
-
-The call stack is pretty messy, as I don't know link the source code as the dependencies here. `feathers` has tons of modules :D Will try to link add do more research.
