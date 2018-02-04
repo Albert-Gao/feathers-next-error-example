@@ -40,5 +40,6 @@ I used the `DEBUG=*` to analysis, I think it may occur when the code prints this
 
 `send stat "/Users/albertgao/codes/temp/feanext/public/index" +1ms`
 
+I don't know whether it related to this problem or not. But just put it here just in case.
 
 The call stack is pretty messy, as I don't know link the source code as the dependencies here. `feathers` has tons of modules :D Will try to link add do more research.
