@@ -1,57 +1,44 @@
-# feanext
+This is a minimal setup which suppose to get `feathers.js` + `next.js`, how ever, it has some issues.
 
-> 
+It generates a feathers app with feathers generator. Then add `next` support by using `npm i next react react-dom`.
 
-## About
+## How to re-produce this error?
 
-This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications.
+1. `npm run build`
+2. `npm run startc`
+3. Open `http://localhost:3050/index`
+4. The page get renders. But there are errors in the console.
 
-## Getting Started
+## What is the problem?
 
-Getting up and running is as easy as 1, 2, 3.
-
-1. Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
-2. Install your dependencies
-
-    ```
-    cd path/to/feanext; npm install
-    ```
-
-3. Start your app
-
-    ```
-    npm start
-    ```
-
-## Testing
-
-Simply run `npm test` and all your tests in the `test/` directory will be run.
-
-## Scaffolding
-
-Feathers has a powerful command line interface. Here are a few things it can do:
-
-```
-$ npm install -g @feathersjs/cli          # Install Feathers CLI
-
-$ feathers generate service               # Generate a new Service
-$ feathers generate hook                  # Generate a new Hook
-$ feathers generate model                 # Generate a new Model
-$ feathers help                           # Show all commands
+```bash
+Refused to execute script from 'http://localhost:3030/_next/1517717442914/manifest.js' because its MIME type ('text/html') is not executable, and strict MIME type checking is enabled.
+index:1 Refused to execute script from 'http://localhost:3030/_next/1517717442914/commons.js' because its MIME type ('text/html') is not executable, and strict MIME type checking is enabled.
+index:1 Refused to execute script from 'http://localhost:3030/_next/1517717442914/main.js' because its MIME type ('text/html') is not executable, and strict MIME type checking is enabled.
+index:1 Refused to execute script from 'http://localhost:3030/_next/1517717442914/page/index.js' because its MIME type ('text/html') is not executable, and strict MIME type checking is enabled.
+index:1 Refused to execute script from 'http://localhost:3030/_next/1517717442914/page/_error.js' because its MIME type ('text/html') is not executable, and strict MIME type checking is enabled.
 ```
 
-## Help
+## What did you see?
 
-For more information on all the things you can do with Feathers visit [docs.feathersjs.com](http://docs.feathersjs.com).
+While debug, an error happens somewhere, this error is not sending to client side. But at the back-end.
 
-## Changelog
+```json
+{
+  "errno": -2,
+  "code": "ENOENT",
+  "syscall": "stat",
+  "path": "/Users/albertgao/codes/temp/feanext/public/index",
+  "message": "no such file or directory, stat '/Users/albertgao/codes/temp/feanext/public/index'",
+  "expose": false,
+  "statusCode": 404,
+  "status": 404
+}
+```
 
-__0.1.0__
+I used the `DEBUG=*` to analysis, I think it may occur when the code prints this out:
 
-- Initial release
+`send stat "/Users/albertgao/codes/temp/feanext/public/index" +1ms`
 
-## License
 
-Copyright (c) 2016
-
-Licensed under the [MIT license](LICENSE).
+The call stack is pretty messy, as I don't know link the source code as the dependencies here. `feathers` has tons of modules :D Will try to link add do more research.
